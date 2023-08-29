@@ -1,8 +1,10 @@
 package com.springboot.demo.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.springboot.demo.model.Employee;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(path = "/employee")
