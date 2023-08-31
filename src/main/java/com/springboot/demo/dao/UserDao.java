@@ -8,4 +8,6 @@ public interface UserDao {
     public List<User> getUserDetails();
 
     User getUserDetailsBasedOnId(long userId);
+
+    List<User> createUser(User user);
 }

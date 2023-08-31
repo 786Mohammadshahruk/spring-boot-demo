@@ -8,4 +8,5 @@ public interface UserService {
     public List<User> getListOfUser();
 
     User getUserDetailsBasedOnId(long userId);
+    List<User> createUser(User user) throws Exception;
 }

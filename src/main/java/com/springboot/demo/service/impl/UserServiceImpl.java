@@ -23,4 +23,13 @@ public class UserServiceImpl implements UserService {
     public User getUserDetailsBasedOnId(long userId) {
         return userDao.getUserDetailsBasedOnId(userId);
     }
+
+    @Override
+    public List<User> createUser(User user) throws Exception {
+        if (user.getId() <= 0) {
+            throw new Exception("Invalid User");
+        }
+        System.out.println("Inside Service ");
+        return userDao.createUser(user);
+    }
 }

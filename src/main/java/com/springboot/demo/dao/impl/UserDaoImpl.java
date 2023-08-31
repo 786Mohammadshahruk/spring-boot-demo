@@ -25,4 +25,10 @@ public class UserDaoImpl implements UserDao {
         }
         return null;
     }
+
+    @Override
+    public List<User> createUser(final User user) {
+        System.out.println("Inside DAO ");
+        return UserUtils.addUser(user);
+    }
 }
