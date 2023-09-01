@@ -9,4 +9,6 @@ public interface UserService {
 
     User getUserDetailsBasedOnId(long userId);
     List<User> createUser(User user) throws Exception;
+
+    User getUserDetailsBasedOnName(String name);
 }

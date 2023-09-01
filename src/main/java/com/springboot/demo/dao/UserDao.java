@@ -10,4 +10,6 @@ public interface UserDao {
     User getUserDetailsBasedOnId(long userId);
 
     List<User> createUser(User user);
+
+    User getUserDetailsBasedOnName(String name);
 }

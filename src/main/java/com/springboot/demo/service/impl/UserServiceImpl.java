@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -29,7 +31,21 @@ public class UserServiceImpl implements UserService {
         if (user.getId() <= 0) {
             throw new Exception("Invalid User");
         }
+
+        String regexPattern = "^(.+)@(\\S+)$";
+
+        Pattern pattern = Pattern.compile(regexPattern);
+        Matcher matcher = pattern.matcher(user.getEmail());
+        if (!matcher.matches()) {
+            throw new Exception("Invalid Email ID");
+        }
+
         System.out.println("Inside Service ");
         return userDao.createUser(user);
+    }
+
+    @Override
+    public User getUserDetailsBasedOnName(String name) {
+        return userDao.getUserDetailsBasedOnName(name);
     }
 }

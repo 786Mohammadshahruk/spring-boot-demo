@@ -60,4 +60,15 @@ public class UserController {
     }
 
 
+    @RequestMapping(value = "/get-user_1", method = RequestMethod.GET)
+    public ResponseEntity<User> getUserOptionUseCase(
+            @PathVariable(name = "userId", required = false) String id) {
+        System.out.println("UserId : " + id);
+        if (id == null) {
+            id = "1";
+        }
+        return new ResponseEntity<>(userService.getUserDetailsBasedOnId(Long.parseLong(id)), HttpStatus.OK);
+    }
+
+
 }

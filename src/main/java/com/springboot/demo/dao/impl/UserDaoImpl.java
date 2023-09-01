@@ -31,4 +31,15 @@ public class UserDaoImpl implements UserDao {
         System.out.println("Inside DAO ");
         return UserUtils.addUser(user);
     }
+
+    @Override
+    public User getUserDetailsBasedOnName(String name) {
+        List<User> userList = UserUtils.getAllTheUser();
+        for (User user : userList) {
+            if (name.equals(user.getFirstName())) {
+                return user;
+            }
+        }
+        return null;
+    }
 }
