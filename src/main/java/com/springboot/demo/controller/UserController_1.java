@@ -18,6 +18,7 @@ public class UserController_1 {
     @Value("${header.name}")
     String header;
 
+
     @GetMapping("/getUser")
     public ResponseEntity<User> getUser(@RequestParam(name = "firstName", defaultValue = "yeteg") String firstName,
                                         @RequestParam(name = "lastName", required = false) String lastName,
