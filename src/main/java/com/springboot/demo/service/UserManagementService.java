@@ -11,4 +11,12 @@ public interface UserManagementService {
     public List<User> findAll();
 
     public User findById(long id);
+
+    User updateUser(long id, User user);
+
+    String deleteUser(long id);
+
+    String deleteAllUser();
+
+    String deleteUserEntity(User user);
 }

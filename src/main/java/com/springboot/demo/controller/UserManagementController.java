@@ -16,20 +16,40 @@ public class UserManagementController {
     @Autowired
     private UserManagementService userManagementService;
 
-    @PostMapping("/create")
+    @PostMapping(value = "/create")
     public ResponseEntity<User> createUser(@RequestBody User user) {
+        System.out.println("Inside Create User");
         return new ResponseEntity<>(userManagementService.createUser(user), HttpStatus.CREATED);
     }
 
-    @GetMapping("/getAll")
+    @GetMapping(value = "/getAll")
     public ResponseEntity<List<User>> getAllUser() {
         return new ResponseEntity<>(userManagementService.findAll(), HttpStatus.OK);
     }
 
-    @GetMapping("/getAll/{id}")
+    @GetMapping(value = "/getAll/{id}")
     public ResponseEntity<User> getAllUser(@PathVariable long id) {
         return new ResponseEntity<>(userManagementService.findById(id), HttpStatus.OK);
     }
 
+    @PutMapping(value = "/update-user/{id}")
+    public ResponseEntity<User> updateUser(@PathVariable long id, @RequestBody User user) {
+        return new ResponseEntity<>(userManagementService.updateUser(id, user), HttpStatus.OK);
+    }
+
+    @DeleteMapping(value = "/delete-user/{id}")
+    public ResponseEntity<String> deleteUserById(@PathVariable long id) {
+        return new ResponseEntity<>(userManagementService.deleteUser(id), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/delete-all", method = RequestMethod.DELETE)
+    public ResponseEntity<String> deleteAllUser() {
+        return new ResponseEntity<>(userManagementService.deleteAllUser(), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/delete-entity", method = RequestMethod.DELETE)
+    public ResponseEntity<String> deleteUserEntity(@RequestBody User user) {
+        return new ResponseEntity<>(userManagementService.deleteUserEntity(user), HttpStatus.OK);
+    }
 
 }

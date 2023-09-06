@@ -28,9 +28,35 @@ public class UserManagementServiceImpl implements UserManagementService {
     @Override
     public User findById(long id) {
         Optional<User> user = userRepository.findById(id);
-        if(user.isPresent()){
-            return  user.get();
+        if (user.isPresent()) {
+            return user.get();
         }
         return null;
     }
+
+    @Override
+    public User updateUser(long id, User user) {
+        user.setId(id);
+        return userRepository.save(user);
+    }
+
+    @Override
+    public String deleteUser(long id) {
+        userRepository.deleteById(id);
+        return "User Deleted";
+    }
+
+    @Override
+    public String deleteAllUser() {
+
+        userRepository.deleteAll();
+        return "All User Deleted";
+    }
+
+    @Override
+    public String deleteUserEntity(User user) {
+        userRepository.delete(user);
+        return "User Is Deleted";
+    }
+
 }

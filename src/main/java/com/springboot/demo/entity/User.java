@@ -1,6 +1,9 @@
 package com.springboot.demo.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,10 +19,13 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @NotEmpty(message = "first_name should not be null or Empty")
+    @Size(max = 10, min = 4, message = "first_name size should be min 4 and max 10.")
     @Column(name = "first_name")
     private String firstName;
 
     @Column(name = "last_name")
+    @Pattern(regexp = "^[a-zA-Z0-9\\s]+$", message = "Last Name only contains letters, Numbers and Space")
     private String lastName;
 
     @Column(name = "address")
