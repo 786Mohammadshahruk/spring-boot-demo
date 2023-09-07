@@ -6,6 +6,7 @@ import com.springboot.demo.service.UserManagementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -57,6 +58,26 @@ public class UserManagementServiceImpl implements UserManagementService {
     public String deleteUserEntity(User user) {
         userRepository.delete(user);
         return "User Is Deleted";
+    }
+
+    @Override
+    public List<User> findByName(String name){
+        return userRepository.findByFirstName(name);
+    }
+
+    @Override
+    public List<User> findByPrice(BigDecimal price){
+        return userRepository.findByPriceGreaterThan(price);
+    }
+
+    @Override
+    public List<User> findByMobileNumberWithJPQL(String mobileNumber){
+        return userRepository.findByMobileNumber(mobileNumber);
+    }
+
+    @Override
+    public List<User> findByMobileNumberWithNative(String mobileNumber){
+        return userRepository.getByMobileNumber(mobileNumber);
     }
 
 }

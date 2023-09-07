@@ -1,12 +1,15 @@
 package com.springboot.demo.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.math.BigDecimal;
 
 @Data
 @AllArgsConstructor
@@ -39,5 +42,9 @@ public class User {
 
     @Column(name = "contact_number")
     private String contactNumber;
+
+    @Column(name = "price")
+    @Digits(integer = 3, fraction = 2, message = "price should be maximum 3 digit and fraction should be 2 digit")
+    private BigDecimal price;
 
 }

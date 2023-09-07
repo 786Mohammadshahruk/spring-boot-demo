@@ -1,12 +1,14 @@
 package com.springboot.demo.controller;
 
 import com.springboot.demo.entity.User;
+import com.springboot.demo.exception.CustomException;
 import com.springboot.demo.service.UserManagementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
@@ -50,6 +52,34 @@ public class UserManagementController {
     @RequestMapping(value = "/delete-entity", method = RequestMethod.DELETE)
     public ResponseEntity<String> deleteUserEntity(@RequestBody User user) {
         return new ResponseEntity<>(userManagementService.deleteUserEntity(user), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/getByName/{name}", method = RequestMethod.GET)
+    public ResponseEntity<List<User>> getUserByName(@PathVariable String name) {
+        return new ResponseEntity<>(userManagementService.findByName(name), HttpStatus.OK);
+
+    }
+
+    @RequestMapping(value = "/getUsersByPrice/{price}", method = RequestMethod.GET)
+    public ResponseEntity<List<User>> getUserByName(@PathVariable BigDecimal price) {
+        return new ResponseEntity<>(userManagementService.findByPrice(price), HttpStatus.OK);
+    }
+
+
+    @RequestMapping(value = "/getUsersByMobileNumber/{number}", method = RequestMethod.GET)
+    public ResponseEntity<List<User>> getUserByMobileNumber(@PathVariable String number,
+                                                            @RequestParam String type) throws Exception {
+
+        if (!type.equals("JPQL")) {
+            throw new CustomException("test Exception");
+        }
+
+        if (type.equals("JPQL")) {
+
+            return new ResponseEntity<>(userManagementService.findByMobileNumberWithJPQL(number), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(userManagementService.findByMobileNumberWithNative(number), HttpStatus.OK);
+        }
     }
 
 }
