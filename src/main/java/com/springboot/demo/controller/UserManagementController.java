@@ -2,9 +2,13 @@ package com.springboot.demo.controller;
 
 import com.springboot.demo.entity.User;
 import com.springboot.demo.exception.CustomException;
+import com.springboot.demo.model.response.MetaData;
+import com.springboot.demo.model.response.ResourceData;
+import com.springboot.demo.model.response.UserResponseModel;
 import com.springboot.demo.service.UserManagementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,9 +23,18 @@ public class UserManagementController {
     private UserManagementService userManagementService;
 
     @PostMapping(value = "/create")
-    public ResponseEntity<User> createUser(@RequestBody User user) {
+    public ResponseEntity<UserResponseModel> createUser(@RequestBody User user) {
         System.out.println("Inside Create User");
-        return new ResponseEntity<>(userManagementService.createUser(user), HttpStatus.CREATED);
+
+        MetaData metaData = MetaData.builder()
+                .status("SUCCESS")
+                .code("200 OK")
+                .message("SUCCESS")
+                .version("v1")
+                .build();
+        ResourceData resourceData = new ResourceData();
+        resourceData.setData(userManagementService.createUser(user));
+        return new ResponseEntity<>(getResponseData(metaData, resourceData), HttpStatus.CREATED);
     }
 
     @GetMapping(value = "/getAll")
@@ -66,20 +79,39 @@ public class UserManagementController {
     }
 
 
-    @RequestMapping(value = "/getUsersByMobileNumber/{number}", method = RequestMethod.GET)
-    public ResponseEntity<List<User>> getUserByMobileNumber(@PathVariable String number,
-                                                            @RequestParam String type) throws Exception {
+    @RequestMapping(value = "/getUsersByMobileNumber/{number}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<UserResponseModel> getUserByMobileNumber(@PathVariable String number,
+                                                                   @RequestParam String type) throws Exception {
 
-        if (!type.equals("JPQL")) {
-            throw new CustomException("test Exception");
+        if (type.equals("test")) {
+            throw new CustomException("Test fail");
         }
-
+        MetaData metaData = null;
+        ResourceData resourceData = null;
+        List<User> listUser;
         if (type.equals("JPQL")) {
+            listUser = userManagementService.findByMobileNumberWithJPQL(number);
 
-            return new ResponseEntity<>(userManagementService.findByMobileNumberWithJPQL(number), HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(userManagementService.findByMobileNumberWithNative(number), HttpStatus.OK);
+            listUser = userManagementService.findByMobileNumberWithNative(number);
         }
+        metaData = MetaData.builder()
+                .status("SUCCESS")
+                .code("200 OK")
+                .message("SUCCESS")
+                .version("v1")
+                .build();
+        resourceData = new ResourceData();
+        resourceData.setData(listUser);
+        return new ResponseEntity<>(getResponseData(metaData, resourceData), HttpStatus.OK);
+    }
+
+
+    private UserResponseModel getResponseData(MetaData metaData, ResourceData resourceData) {
+        return UserResponseModel.builder()
+                .metaData(metaData)
+                .resourceData(resourceData)
+                .build();
     }
 
 }
