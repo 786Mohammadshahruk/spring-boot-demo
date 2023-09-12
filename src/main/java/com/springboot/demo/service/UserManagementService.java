@@ -1,5 +1,6 @@
 package com.springboot.demo.service;
 
+import com.springboot.demo.dtos.UserDto;
 import com.springboot.demo.entity.User;
 
 import java.math.BigDecimal;
@@ -28,4 +29,6 @@ public interface UserManagementService {
     public List<User> findByMobileNumberWithJPQL(String mobileNumber);
 
     public List<User> findByMobileNumberWithNative(String mobileNumber);
+
+    List<User> findByMobileIdNumberWithNative(UserDto userdto);
 }

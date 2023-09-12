@@ -1,11 +1,13 @@
 package com.springboot.demo.controller;
 
+import com.springboot.demo.dtos.UserDto;
 import com.springboot.demo.entity.User;
 import com.springboot.demo.exception.CustomException;
 import com.springboot.demo.model.response.MetaData;
 import com.springboot.demo.model.response.ResourceData;
 import com.springboot.demo.model.response.UserResponseModel;
 import com.springboot.demo.service.UserManagementService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -17,6 +19,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/user-management")
+@Slf4j
 public class UserManagementController {
 
     @Autowired
@@ -83,6 +86,7 @@ public class UserManagementController {
     public ResponseEntity<UserResponseModel> getUserByMobileNumber(@PathVariable String number,
                                                                    @RequestParam String type) throws Exception {
 
+        log.info("Inside Controller");
         if (type.equals("test")) {
             throw new CustomException("Test fail");
         }
@@ -112,6 +116,12 @@ public class UserManagementController {
                 .metaData(metaData)
                 .resourceData(resourceData)
                 .build();
+    }
+
+    @RequestMapping(value = "/getUsersByIdMobileNumber", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getUserByIdAndMobileNumber(@RequestBody UserDto userdto) throws Exception {
+
+        return new ResponseEntity<>(userManagementService.findByMobileIdNumberWithNative(userdto), HttpStatus.OK);
     }
 
 }

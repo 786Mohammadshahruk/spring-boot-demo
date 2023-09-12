@@ -1,6 +1,7 @@
 package com.springboot.demo.service.impl;
 
 import com.springboot.demo.dao.UserRepository;
+import com.springboot.demo.dtos.UserDto;
 import com.springboot.demo.entity.User;
 import com.springboot.demo.service.UserManagementService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,6 +79,12 @@ public class UserManagementServiceImpl implements UserManagementService {
     @Override
     public List<User> findByMobileNumberWithNative(String mobileNumber){
         return userRepository.getByMobileNumber(mobileNumber);
+    }
+
+    @Override
+    public List<User> findByMobileIdNumberWithNative(UserDto userdto) {
+        return userRepository.findByMobileIdNumberWithNative(userdto.getId(),
+                userdto.getContactNumber(),userdto.getAddress());
     }
 
 }

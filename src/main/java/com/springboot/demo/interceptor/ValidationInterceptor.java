@@ -8,11 +8,13 @@ import org.springframework.web.servlet.HandlerInterceptor;
 
 @Component
 @Slf4j
-public class CustomInterceptor implements HandlerInterceptor {
+public class ValidationInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
-        log.info("Pre Handel CustomInterceptor");
-        return true;
+        if ("true".equals(request.getHeader("Admin")))
+            return true;
+        else
+            return false;
     }
 }

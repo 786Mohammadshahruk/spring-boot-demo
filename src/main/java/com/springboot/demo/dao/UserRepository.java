@@ -24,4 +24,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query(value = "SELECT * From user_table WHERE mobile_number = :mobileNumber", nativeQuery = true)
     List<User> getByMobileNumber(@Param("mobileNumber") String number);
 
+    @Query(value = "SELECT * From user_table WHERE mobile_number = :mobileNumber AND id = :id AND address= :address ", nativeQuery = true)
+    List<User> findByMobileIdNumberWithNative(@Param("id")long id,
+                                              @Param("mobileNumber") String mobileNumber,
+                                              @Param("address") String address);
 }
