@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
@@ -119,7 +120,7 @@ public class UserManagementController {
     }
 
     @RequestMapping(value = "/getUsersByIdMobileNumber", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> getUserByIdAndMobileNumber(@RequestBody UserDto userdto) throws Exception {
+    public ResponseEntity<?> getUserByIdAndMobileNumber(@RequestBody @Validated UserDto userdto) throws Exception {
 
         return new ResponseEntity<>(userManagementService.findByMobileIdNumberWithNative(userdto), HttpStatus.OK);
     }
