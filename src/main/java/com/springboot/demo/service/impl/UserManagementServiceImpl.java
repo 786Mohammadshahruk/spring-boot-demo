@@ -62,29 +62,29 @@ public class UserManagementServiceImpl implements UserManagementService {
     }
 
     @Override
-    public List<User> findByName(String name){
+    public List<User> findByName(String name) {
         return userRepository.findByFirstName(name);
     }
 
     @Override
-    public List<User> findByPrice(BigDecimal price){
+    public List<User> findByPrice(BigDecimal price) {
         return userRepository.findByPriceGreaterThan(price);
     }
 
     @Override
-    public List<User> findByMobileNumberWithJPQL(String mobileNumber){
+    public List<User> findByMobileNumberWithJPQL(String mobileNumber) {
         return userRepository.findByMobileNumber(mobileNumber);
     }
 
     @Override
-    public List<User> findByMobileNumberWithNative(String mobileNumber){
+    public List<User> findByMobileNumberWithNative(String mobileNumber) {
         return userRepository.getByMobileNumber(mobileNumber);
     }
 
     @Override
     public List<User> findByMobileIdNumberWithNative(UserDto userdto) {
         return userRepository.findByMobileIdNumberWithNative(userdto.getId(),
-                userdto.getContactNumber(),userdto.getAddress());
+                userdto.getContactNumber(), userdto.getAddress());
     }
 
 }
