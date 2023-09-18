@@ -38,7 +38,7 @@ public class UserManagementController {
                 .build();
         ResourceData resourceData = new ResourceData();
         resourceData.setData(userManagementService.createUser(user));
-        return new ResponseEntity<>(getResponseData(metaData, resourceData), HttpStatus.CREATED);
+        return new ResponseEntity<>(getResponseData(metaData, resourceData), HttpStatus.OK);
     }
 
     @GetMapping(value = "/getAll")

@@ -3,7 +3,9 @@ package com.springboot.demo.service;
 import com.springboot.demo.dao.UserRepository;
 import com.springboot.demo.dtos.UserDto;
 import com.springboot.demo.entity.User;
+import com.springboot.demo.exception.CustomException;
 import com.springboot.demo.service.impl.UserManagementServiceImpl;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,7 +18,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(SpringExtension.class)
 public class UserManagementServiceImplTest {
@@ -44,37 +46,45 @@ public class UserManagementServiceImplTest {
 
     @Test
     void createUserNullTest() {
-        User result = userManagementService.createUser(user);
-        assertNull(result);
+        CustomException customException = Assertions.assertThrows(CustomException.class, () -> userManagementService.createUser(user));
+        assertEquals("User is Null !!!", customException.getMessage());
     }
 
     @Test
-    void findByIdTest(){
+    void createUserVerifyTest() {
+        when(userRepository.save(any(User.class))).thenReturn(user);
+        User result = userManagementService.createUser(user);
+        assertNotNull(result);
+        verify(userRepository, times(1)).save(any(User.class));
+    }
+
+    @Test
+    void findByIdTest() {
         when(userRepository.findById(anyLong())).thenReturn(Optional.of(user));
         User result = userManagementService.findById(1);
-        assertEquals(user.getFirstName(),result.getFirstName());
+        assertEquals(user.getFirstName(), result.getFirstName());
     }
 
     @Test
-    void findByIdEmptyTest(){
+    void findByIdEmptyTest() {
         when(userRepository.findById(anyLong())).thenReturn(Optional.empty());
         User result = userManagementService.findById(1);
         assertNull(result);
     }
 
     @Test
-    void findByMobileIdNumberWithNativeTest(){
-        UserDto userDto= new UserDto();
+    void findByMobileIdNumberWithNativeTest() {
+        UserDto userDto = new UserDto();
         userDto.setContactNumber("");
         userDto.setId(2);
         userDto.setAddress("");
 
-        when(userRepository.findByMobileIdNumberWithNative(anyLong(),anyString(),anyString())).thenReturn(List.of(user));
+        when(userRepository.findByMobileIdNumberWithNative(anyLong(), anyString(), anyString())).thenReturn(List.of(user));
 
         List<User> userList = userManagementService.findByMobileIdNumberWithNative(userDto);
 
         assertNotNull(userList);
-        assertEquals(user.getFirstName(),userList.get(0).getFirstName());
+        assertEquals(user.getFirstName(), userList.get(0).getFirstName());
     }
 
 

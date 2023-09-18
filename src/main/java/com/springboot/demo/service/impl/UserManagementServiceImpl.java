@@ -3,12 +3,14 @@ package com.springboot.demo.service.impl;
 import com.springboot.demo.dao.UserRepository;
 import com.springboot.demo.dtos.UserDto;
 import com.springboot.demo.entity.User;
+import com.springboot.demo.exception.CustomException;
 import com.springboot.demo.service.UserManagementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -19,7 +21,12 @@ public class UserManagementServiceImpl implements UserManagementService {
 
     @Override
     public User createUser(User user) {
-        return userRepository.save(user);
+
+        User savedUser = userRepository.save(user);
+        if (Objects.isNull(savedUser)) {
+            throw new CustomException("User is Null !!!");
+        }
+        return savedUser;
     }
 
     @Override
